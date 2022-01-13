@@ -3,7 +3,7 @@ import random
 
 def main():
     print('GURPS Infinite Worlds Generator')
-    print('v0.0.2\n')
+    print('v0.0.3\n')
     print('1 - Generate new world automatically')
     print('2 - Generate new world step-by-step')
     print('3 - Change settings (TO-DO)')
@@ -96,6 +96,50 @@ def selectQuantum(automatic, results):
     
     print('Quantum: Q' + quantum)
     results['quantum'] = quantum
+
+    selectWorldType(automatic, results)
+
+def selectWorldType(automatic, results):
+    worldOptions = retrieveJson('data/worldType.json')
+
+    # World Type
+    if (not automatic):
+        print('1 - Empty')
+        print('2 - Echo')
+        print('3 - Parallel')
+        # Add one more here
+        print('4 - Challenge')
+
+        while True:
+            option = input()
+
+            if (option == '1'):
+                worldType = 'Empty'
+            elif (option == '2'):
+                worldType = 'Echo'
+            elif (option == '3'):
+                worldType = 'Parallel'
+            elif (option == '4'):
+                worldType = 'Challenge'
+            elif (option == ''):
+                worlds = list(worldOptions.values())
+                specialOptions = worlds.pop()
+                worldType = random.choice(worlds)
+            else:
+                continue
+    else:
+        worlds = list(worldOptions.values())
+        specialOptions = worlds.pop().values()
+        worldType = random.choice(worlds)
+
+    if (worldType == 'Echo/Parallel'):
+        if (results['quantum'] == '6'):
+            worldType = random.choice(list(specialOptions))
+        else:
+            worldType = random.choice(['Echo', 'Parallel'])
+    
+    print('World Type: ' + worldType)
+    results['worldType'] = worldType
 
 if __name__ == '__main__':
     main()

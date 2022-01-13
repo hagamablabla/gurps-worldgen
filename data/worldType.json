@@ -1,0 +1,16 @@
+{
+    "1": "Empty",
+    "2": "Echo/Parallel",
+    "3": "Echo/Parallel",
+    "4": "Echo/Parallel",
+    "5": "Echo/Parallel",
+    "6": "Challenge",
+    "Q6": {
+        "1": "Echo",
+        "2": "Echo",
+        "3": "Parallel",
+        "4": "Parallel",
+        "5": "Parallel",
+        "6": "Parallel"
+    }
+}

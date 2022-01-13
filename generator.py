@@ -3,7 +3,7 @@ import random
 
 def main():
     print('GURPS Infinite Worlds Generator')
-    print('v0.0.1\n')
+    print('v0.0.2\n')
     print('1 - Generate new world automatically')
     print('2 - Generate new world step-by-step')
     print('3 - Change settings (TO-DO)')
@@ -54,35 +54,25 @@ def selectQuantum(automatic, results):
     quantumOptions = retrieveJson('data/quantum.json')
 
     # Homeline or Centrum world
-    option = random.randint(1, 2)
     if (not automatic):
         print('1 - Homeline')
         print('2 - Centrum')
 
         while True:
-            entry = input()
-            try:
-                entry = int(entry)
-            except ValueError:
-                continue
-
-            if (entry in [1, 2]):
-                option = entry
-            elif (entry == ''):
-                break
+            option = input()
+            if (option in [1, 2]):
+                centerWorld = quantumOptions.keys()[int(option)]
+            elif (option == ''):
+                centerWorld = random.choice(list(quantumOptions.keys()))
             else:
                 continue
-
-    if (option == 1):
-        centerWorld = 'Homeline'
-    elif (option == 2):
-        centerWorld = 'Centrum'
+    else:
+        centerWorld = random.choice(list(quantumOptions.keys()))
     
     print('Homeworld: ' + centerWorld)
     results['centerWorld'] = centerWorld
 
     # Quantum
-    option = random.randint(1, 6)
     if (not automatic):
         print('1 - Quantum ', quantumOptions[centerWorld]['1'])
         print('2 - Quantum ', quantumOptions[centerWorld]['2'])
@@ -91,25 +81,21 @@ def selectQuantum(automatic, results):
         print('5 - Quantum ', quantumOptions[centerWorld]['6'])
 
         while True:
-            entry = input()
-            try:
-                entry = int(entry)
-            except ValueError:
-                continue
+            option = input()
 
-            if (entry in [1, 2, 3, 4]):
-                option = entry
-            elif (entry == 5):
-                option = entry + 1
-            elif (entry == ''):
-                break
+            if (option in ['1', '2', '3', '4']):
+                quantum = quantumOptions[centerWorld][option]
+            elif (option == '5'):
+                quantum = quantumOptions[centerWorld]['6']
+            elif (option == ''):
+                quantum = random.choice(list(quantumOptions[centerWorld].values()))
             else:
                 continue
-            
-    quantum = quantumOptions[centerWorld][str(option)]
+    else:
+        quantum = random.choice(list(quantumOptions[centerWorld].values()))
     
     print('Quantum: Q' + quantum)
-    results['quantum'] = centerWorld
+    results['quantum'] = quantum
 
 if __name__ == '__main__':
     main()
